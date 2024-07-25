@@ -1,0 +1,53 @@
+.post-body {
+    background-color: #fff;
+    height: 84vh;
+}
+
+.welcome-message {
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.6;
+}
+
+.alert-color { background-color: #b4846c; }
+
+.main-color { background-color: #d7c0ae; }
+  
+.error-border { border: 1px solid #f00; }
+
+.btn-color { background-color: #555; }
+
+.carousel-inner { 
+    height: 270px;
+    width: 20vw; 
+}
+
+@media (max-width: 1200px) {
+
+    .carousel-inner { 
+        height: 300px; 
+        width: 24vw;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .post-body { height: 100%; }
+
+    .carousel-inner {
+        height: 180px;
+        width: 72vw;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .carousel-inner { height: 200px; }
+}
+
+@media (max-width: 360px) {
+
+    .carousel-inner { height: 270px; }
+}

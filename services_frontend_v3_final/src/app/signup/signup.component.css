@@ -1,0 +1,42 @@
+.main-color { background-color: #d7c0ae; }
+
+.form-container { max-width: 1000px; }
+
+input.form-control { height: 2rem; }
+
+.error-border { border: 1px solid #f00; }
+
+.btn { height: 2rem; }
+
+.form-outline { position: relative; }
+
+.form-outline .show-icon {
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: transparent; 
+    border: none;
+}
+
+.country .show-icon {
+    cursor: auto;
+}
+
+a:hover,
+a:focus { color: #134b5e; }
+
+.btn-color { background-color: #555; }
+
+.btn-color:hover { background-color: #777; }
+
+@media (max-width: 992px) {
+
+    .sign-up-group { margin-top: -20px; }
+}
+
+@media (max-width: 768px) {
+
+    .final-error { margin-bottom: 20px; }
+}

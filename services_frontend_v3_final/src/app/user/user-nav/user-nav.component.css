@@ -1,0 +1,24 @@
+.active {
+    background-color: #d7c0ae;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+nav { 
+    background-color: #bf9270; 
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-item:hover { background-color: #914f1e; }
+
+.active:hover { background-color: #d7c0ae; }
+
+.navbar-brand {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+    color: #333; 
+}
+
+.logout { cursor: pointer; }
+
+.navbar-hidden { transform: translateY(-100%); }

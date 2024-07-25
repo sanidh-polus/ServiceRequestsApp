@@ -1,0 +1,107 @@
+<section class="px-5 py-4 progress-body" id="in-progress-requests" aria-label="In-Progress Requests Page" tabindex="0">
+    <h1 class="display-6" id="in-progress-requests-title" tabindex="0">In-Progress Requests ({{ totalTicketCount }})</h1>
+    <div class="alert alert-info" id="in-progress-empty-alert" *ngIf="tickets === null || tickets.length === 0"
+        role="alert" tabindex="0">
+        <b>No tickets created yet</b>
+    </div>
+    <div class="row row-cols-1 row-cols-lg-2 g-5 py-4" id="in-progress-card-grid">
+        <div class="col" *ngFor="let ticket of tickets" id="in-progress-card-column">
+            <div class="card" id="in-progress-card">
+                <div class="card-body main-color rounded shadow" id="in-progress-card-body">
+                    <div class="d-flex flex-sm-row mb-2">
+                        <span class="badge bg-warning text-dark position-absolute top-0 end-0 me-4 mt-3">
+                            In-Progress</span>
+                        <p class="mb-0" tabindex="0"><b>Ticket ID:</b> {{ ticket.ticketId }}</p>
+                    </div>
+                    <h5 class="card-title d-inline" id="ticket-{{ ticket.ticketId }}-category" tabindex="0">
+                        {{ ticket?.categoryName }}</h5>
+                    <p class="card-text mt-2 mb-2" id="ticket-{{ ticket.ticketId }}-description" tabindex="0">
+                        {{ ticket?.ticketDescription }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-time" tabindex="0"><b>Created At:</b> 
+                        {{ ticket?.ticketCreatedTime | date:'medium' }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-updated-time" tabindex="0"><b>Updated At:</b> 
+                        {{ ticket?.ticketUpdatedAt !== ticket?.ticketCreatedTime ? (ticket?.ticketUpdatedAt | date: 'medium') : 'No updates' }}</p>
+                    <div class="d-flex flex-col">
+                        <button class="btn btn-primary btn-sm me-2" id="ticket-{{ ticket.ticketId }}-edit-button" 
+                        type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" (click)="openEditTicket(ticket)">
+                        <i class="bi bi-pencil-fill"></i> Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm me-2" id="ticket-{{ ticket.ticketId }}-delete-button" 
+                        type="button" (click)="deleteTicket(ticket.ticketId)">
+                        <i class="bi bi-trash-fill"></i> Delete
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" id="ticket-{{ ticket.ticketId }}-assign-button" 
+                        (click)="assignedTicketId = ticket.ticketId" data-bs-target="#assign-modal" 
+                        data-bs-toggle="modal">
+                        <i class="bi bi-person-plus-fill"></i> Assign Admin
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mx-1" id="'pagination-button-{{ page + 1 }}" *ngFor="let page of pages" 
+        attr.aria-label="'Go to page {{ page + 1 }}" [routerLink]="['.', { page: page + 1 }]"
+        [ngClass]="{ 'btn-secondary': currentPage-1 === page }">
+        {{ page + 1 }}
+    </button>
+</section>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="edit-modal-header">
+                <h5 class="modal-title" id="edit-modal-title">Edit Request</h5>
+            </div>
+            <div class="modal-body me-3" id="edit-modal-body">
+                <select class="form-select my-2" id="edit-request-category" [(ngModel)]="editTicketDetails.categoryName" 
+                    name="category" tabindex="0" aria-label="Select a category">
+                    <option value="" disabled selected>Select a category</option>
+                    <option *ngFor="let category of categoryNames">{{ category }}</option>
+                </select>
+                <textarea class="form-control my-2" id="edit-request-description" placeholder="Enter a description"
+                    [(ngModel)]="editTicketDetails.ticketDescription" rows="4" name="description" tabindex="0" 
+                    aria-label="Enter a description" [ngClass]="{'error-border': editError !== '' }">
+                </textarea>
+                <p class="text-muted" id="request-created-time"><b>Created At:</b> 
+                    {{ editTicketDetails.ticketCreatedTime | date:'medium' }}</p>
+                <p class="text-danger" id="edit-request-error-text" aria-live="assertive" tabindex="0">
+                    <b>{{ editError }}</b> 
+                 </p>
+            </div>
+            <div class="modal-footer" id="edit-modal-footer">
+                <button class="btn cancel-color text-white" id="edit-cancel-button" type="button" data-bs-dismiss="modal">
+                    Cancel</button>
+                <button class="btn btn-primary" type="button" edit="edit-submit-button" data-bs-dismiss="modal" 
+                    (click)="editTicket()">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Admin Modal -->
+<div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="assign-modal-header">
+                <h5 class="modal-title" id="assign-modal-title">Assign Admin</h5>
+            </div>
+            <div class="modal-body me-3" id="assign-modal-body">
+                <select class="form-select my-2" id="assign-request-admin" [(ngModel)]="selectedAdmin" name="admin"
+                    tabindex="0">
+                    <option value="" disabled selected>Select an admin</option>
+                    <option *ngFor="let admin of adminNames">{{ admin }}</option>
+                </select>
+                <p class="mb-0" id="assign-warning-text-1"><b>Assigning an admin will prevent further editing.</b></p> 
+                <p id="assign-warning-text-2"><b>Proceed only if you are sure.</b></p>
+            </div>
+            <div class="modal-footer" id="assign-modal-footer">
+                <button class="btn cancel-color text-white" id="assign-cancel-button" type="button" 
+                    data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" id="assign-submit-button" type="button" data-bs-dismiss="modal" 
+                    (click)="assignAdmin()">Assign</button>
+            </div>
+        </div>
+    </div>
+</div>

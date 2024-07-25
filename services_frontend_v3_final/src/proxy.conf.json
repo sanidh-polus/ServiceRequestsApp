@@ -1,0 +1,62 @@
+{
+    "/service/login": {
+      "target": "http://10.199.100.140:8080/authenticate/login",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/service/login" : ""}
+    },
+    "/service/signup": {
+      "target": "http://10.199.100.140:8080/authenticate/signup",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/service/signup" : ""}
+    },
+    "/service/countries": {
+      "target": "http://10.199.100.140:8080/authenticate/country",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/service/countries" : ""}
+    },
+    "/service/categories": {
+      "target": "http://10.199.100.140:8080/homepage/category",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/service/categories" : ""}
+    },
+    "/service/create": {
+      "target": "http://10.199.100.140:8080/homepage/create",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/service/create" : ""}
+    },
+    "/service/tickets": {
+        "target": "http://10.199.100.140:8080/homepage/tickets",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/service/tickets" : ""}
+    },
+    "/service/delete": {
+        "target": "http://10.199.100.140:8080/homepage/delete",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/service/delete" : ""}
+    },
+    "/service/roles": {
+        "target": "http://10.199.100.140:8080/homepage/roles",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/service/roles" : ""}
+    },
+    "/service/assign": {
+        "target": "http://10.199.100.140:8080/homepage/assign",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/service/assign" : ""}
+    },
+    "/service/count": {
+        "target": "http://10.199.100.140:8080/homepage/count",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/service/count" : ""}
+    }
+}

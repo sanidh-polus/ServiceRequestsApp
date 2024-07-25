@@ -1,0 +1,36 @@
+<section class="px-5 py-4 rejected-body" id="rejected-requests" aria-label="Rejected Requests Page" tabindex="0">
+    <h1 class="display-6" id="rejected-requests-title" tabindex="0">Rejected Requests ({{ totalTicketCount }})</h1>
+    <div class="alert alert-info" id="rejected-empty-alert" *ngIf="tickets === null || tickets.length === 0" role="alert"
+        tabindex="0">
+        <b>No tickets rejected yet</b>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-5 py-4" id="rejected-card-grid">
+        <div *ngFor="let ticket of tickets" class="col" id="rejected-card-column">
+            <div class="card"  id="rejected-card">
+                <div class="card-body main-color rounded shadow"  id="rejected-card-body">
+                    <div class="d-flex flex-sm-row mb-2">
+                        <span class="badge bg-danger position-absolute top-0 end-0 me-4 mt-3">
+                            Rejected</span>
+                        <p class="mb-0" tabindex="0"><b>Ticket ID:</b> {{ ticket.ticketId }}</p>
+                    </div>
+                    <h5 class="card-title d-inline" id="ticket-{{ ticket.ticketId }}-category" tabindex="0">
+                        {{ ticket?.categoryName }}</h5>
+                    <p class="card-text mt-2 mb-2" id="ticket-{{ ticket.ticketId }}-description" tabindex="0">
+                        {{ ticket?.ticketDescription }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-time" tabindex="0"><b>Created At:</b> 
+                        {{ ticket?.ticketCreatedTime | date:'medium' }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-rejected-time" tabindex="0"><b>Rejected At:</b> 
+                        {{ ticket?.ticketUpdatedAt | date:'medium' }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-rejected-by" tabindex="0"><b>Rejected By:</b> 
+                        {{ ticket?.assignedTo?.firstName + ' ' + ticket?.assignedTo?.lastName }}</p>
+                    <!-- <p class="text-muted"><b>Comments:</b> {{ ticket?.comments }}</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mx-1" id="'pagination-button-{{ page + 1 }}" *ngFor="let page of pages" 
+        attr.aria-label="'Go to page {{ page + 1 }}" [routerLink]="['.', { page: page + 1 }]"
+        [ngClass]="{ 'btn-secondary': currentPage-1 === page }">
+        {{ page + 1 }}
+    </button>
+</section>

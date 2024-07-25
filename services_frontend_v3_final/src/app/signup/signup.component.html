@@ -1,0 +1,172 @@
+<section class="signup-body" id="signup-box-main" tabindex="0" aria-label="Signup Page Body" role="signup-body">
+    <div class="container p-2" id="signup-box-container">
+        <div class="form-container m-auto p-4" id="signup-form-box">
+            <form class="border rounded p-3 main-color" id="signup-form">
+                <h1 class="display-6 bold text-center" tabindex="0" id="sign-up-heading">
+                    <b>Create a New Account</b>
+                </h1>
+                <div class="row mt-2" id="name-desigation-row">
+                    <div class="col-md-4" id="first-name-div">
+                        <label class="form-label" id="first-name-label" for="input-first-name">
+                            First Name <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-first-name" type="text" placeholder="First Name" 
+                            tabindex="0" name="firstName" [(ngModel)]="signUpData.firstName" 
+                            [ngClass]="{'error-border': errorsMap.has('firstName') }" />
+                        <p class="text-danger" id="first-name-error-text" tabindex="0">
+                            {{ errorsMap.get('firstName') }}
+                        </p>
+                    </div>
+                    <div class="col-md-4" id="last-name-div">
+                        <label class="form-label" id="last-name-label" for="input-last-name">
+                            Last Name <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-last-name" type="text" placeholder="Last Name" 
+                            tabindex="0" name="lastName" [(ngModel)]="signUpData.lastName"
+                            [ngClass]="{'error-border': errorsMap.has('lastName') }" />
+                        <p class="text-danger" id="last-name-error-text" tabindex="0">
+                            {{ errorsMap.get('lastName') }}
+                        </p>
+                    </div>
+                    <div class="col-md-4" id="designation-div">
+                        <label class="form-label" id="designation-div" for="input-designation">
+                            Designation <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-designation" placeholder="Software Engineer" type="text" 
+                            tabindex="0" name="designation" [(ngModel)]="signUpData.designation"
+                            [ngClass]="{'error-border': errorsMap.has('designation') }" />
+                        <p class="text-danger" id="designation-error-text" tabindex="0">
+                            {{ errorsMap.get('designation') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row" id="email-phone-row">
+                    <div class="col-md-6" id="email-div">
+                        <label class="form-label" id="email-label" for="input-email">
+                            Email <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-email" type="email" placeholder="Email" tabindex="0" 
+                            [ngClass]="{'error-border': errorsMap.has('email') }" name="email" 
+                            [(ngModel)]="signUpData.email" />
+                        <p class="text-danger" id="email-error-text" tabindex="0">
+                            {{ errorsMap.get('email') }}
+                        </p>
+                    </div>
+                    <div class="col-md-6" id="phone-div">
+                        <label class="form-label" id="phone-label" for="input-phone-number">
+                            Phone Number <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-phone-number" type="text" placeholder="Phone Number" 
+                            tabindex="0" name="phoneNumber" [(ngModel)]="signUpData.phoneNumber"
+                            [ngClass]="{'error-border': errorsMap.has('phoneNumber') }" />
+                        <p class="text-danger" id="phone-number-error-text" tabindex="0">
+                            {{ errorsMap.get('phoneNumber') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row" id="country-state-row">
+                    <div class="col-md-6 country" id="country-div">
+                        <label class="form-label" id="country-label" for="input-country">
+                            Country <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-outline">
+                            <input class="form-control" id="input-country" list="countries" 
+                                placeholder="Search Country" [(ngModel)]="searchText" name="searchText" 
+                                [ngClass]="{'error-border': errorsMap.has('country') }" />
+                            <button class="btn show-icon" id="country-dropdown-icon" tabindex="-1">                     
+                                <i class="dropdown-toggle" id="dropdown-toggle-icon"></i>	                               
+                            </button>
+                        </div>
+                        <datalist id="countries" name="country">
+                            <option *ngFor="let countryName of getFilteredCountryNames()" [value]="countryName">
+                                {{ countryName }}
+                            </option>
+                        </datalist>
+                        <p *ngIf="countries?.length !== 0 && getFilteredCountryNames()?.length === 0" tabindex="0"
+                            class="text-danger mb-0" >
+                            No countries available
+                        </p>
+                        <p class="text-danger" id="country-error-text" tabindex="0">
+                            {{ errorsMap.get('country') }}
+                        </p>
+                    </div>
+                    <div class="col-md-6" id="state-div">
+                        <label class="form-label" id="state-label" for="input-state">
+                            State <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" id="input-state" type="text" placeholder="State" tabindex="0" 
+                            [ngClass]="{'error-border': errorsMap.has('state') }" name="state" 
+                            [(ngModel)]="signUpData.state" />
+                        <p class="text-danger" id="state-error-text" tabindex="0">
+                            {{ errorsMap.get('state') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row" id="address-div">
+                    <label class="form-label" id="address-label" for="input-address">
+                        Address <span class="text-danger">*</span>
+                    </label>
+                    <div id="address-input-row">
+                        <textarea class="form-control" id="input-address" type="text" placeholder="1234 Main St" 
+                            tabindex="0" [ngClass]="{'error-border': errorsMap.has('address') }" name="address" 
+                            [(ngModel)]="signUpData.address">
+                        </textarea>
+                        <p class="text-danger" id="address-error-text" tabindex="0">
+                            {{ errorsMap.get('address') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row" id="password-confirm-password-row">
+                    <div class="col-md-6" id="password-div">
+                        <label class="form-label" id="password-label" for="input-password">
+                            Password <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-outline" id="password-input-group">
+                            <input class="form-control" id="input-password" type="{{ passwordType }}"
+                                placeholder="Password" tabindex="0" name="password" [(ngModel)]="signUpData.password"
+                                [ngClass]="{'error-border': errorsMap.has('password') }" />
+                            <button class="btn show-icon" type="button" id="password-toggle-button" 
+                                tabindex="0" aria-label="Show or Hide Password" title="Show or Hide Password"
+                                (click)="togglePasswordVisibility('password')">
+                                <i class="{{ togglePasswordClass }}" id="toggle-input-password-button"></i>
+                            </button>
+                        </div>
+                        <p class="text-danger" id="password-error-text" tabindex="0">
+                            {{ errorsMap.get('password') }}
+                        </p>
+                    </div>
+                    <div class="col-md-6" id="confirm-password-div">
+                        <label class="form-label" id="confirm-password-label" for="input-confirm-password">
+                            Confirm Password <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-outline" id="confirm-password-input-group">
+                            <input class="form-control" id="input-confirm-password" type="{{ confirmPasswordType }}"
+                                placeholder="Password" tabindex="0" name="confirmPassword" [(ngModel)]="confirmPassword"
+                                [ngClass]="{'error-border': errorsMap.has('confirmPassword') }" />
+                            <button class="btn show-icon" type="button" id="confirm-password-toggle-button"
+                                tabindex="0" aria-label="Show or Hide Password" title="Show or Hide Password"
+                                (click)="togglePasswordVisibility('confirmPassword')">
+                                <i class="{{ toggleConfirmPasswordClass }}" id="toggle-input-confirm-password-button"></i>
+                            </button>
+                        </div>
+                        <p class="text-danger" id="confirm-password-error-text" tabindex="0">
+                            {{ errorsMap.get('confirmPassword') }}
+                        </p>
+                    </div>
+                </div>
+                <p class="text-danger final-error" id="final-error-text" tabindex="0">
+                    <b>{{ errorMessage }}</b>
+                </p>
+                <div class="sign-up-group d-flex flex-column align-items-center justify-content-center" id="signup-div">
+                    <button type="button" class="btn btn-color h-25 text-white" id="sign-up-button"
+                        tabindex="0" aria-label="Signup Button" (click)="signUp()">Sign Up</button>
+                    <div class="d-flex flex-column flex-md-row align-items-center" id="login-div">
+                        <p class="mb-0 me-2" id="login-text" tabindex="0">Already have an account?</p>
+                        <a class="link-underline link-underline-opacity-0" id="login-link" tabindex="0" 
+                            aria-label="Login Link" role="link" title="Login Link" routerLink="/login">Login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,57 @@
+<section class="login-body" id="login-box-main" tabindex="0" aria-label="Login Page Body" role="login-body">
+    <div class="container p-4 d-flex justify-content-center" id="login-main-container">
+        <div class="form-container border rounded col-lg-6 col-10 p-4 main-color" id="login-form-box">
+            <div class="text-center" id="app-image">
+                <img src="https://www.manageengine.com/products/service-desk/itsm/images/service-request-process.png"
+                    alt="Image, ringing for a service like at a hotel" id="bell-ring-image" tabindex="0"
+                    title="Image, ringing for a service like at a hotel" />
+                <h4 class="m-3" id="app-heading" tabindex="0">Service App</h4>
+            </div>
+            <form id="login-form">
+                <p id="login-heading" tabindex="0">
+                    <b>Login</b>
+                </p>
+                <label class="form-label" for="email" id="email-label">
+                    Email <span class="text-danger">*</span>
+                </label>
+                <div class="form-outline mb-3" id="email-input">
+                    <input class="form-control" id="email" type="email" name="email" autocomplete="email"
+                        placeholder="Enter email address" tabindex="0" [(ngModel)]="loginData.email"
+                        [ngClass]="{'error-border': errorsMap.has('email') }" />
+                </div>
+                <label class="form-label" for="password" id="password-label">
+                    Password <span class="text-danger">*</span>
+                </label>
+                <div class="form-outline mb-3" id="password-login">
+                    <input class="form-control" id="password" type="{{ passwordType }}" name="password" 
+                        autocomplete="current-password" placeholder="Enter password" tabindex="0" 
+                        [(ngModel)]="loginData.password" [ngClass]="{'error-border': errorsMap.has('password') }" />
+                    <button class="btn show-icon" id="show-password"
+                        tabindex="0" aria-label="Show or Hide Password"
+                        title="Show or Hide Password" (click)="togglePasswordVisibility()">
+                        <i class="{{ togglePasswordClass }}" id="toggle-password-button"></i>
+                    </button>
+                </div>
+                <p class="text-danger text-center" id="error-text" aria-live="assertive" tabindex="0">
+                    <b>{{ errorMessage }}</b>
+                </p>
+                <div class="text-center" id="login-button-div">
+                    <button class="btn btn-color text-white w-100 mt-2" type="button" id="login-button" tabindex="0" 
+                        aria-label="Login Button" (click)="login()">
+                        Log In
+                    </button>
+                    <br />
+                </div>
+                <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center sign-up-group" 
+                    id="sign-up-div">
+                    <p class="mb-0 me-2" id="sign-up-text" tabindex="0">Don't have an account?</p>
+                    <a class="link-underline link-underline-opacity-0" id="sign-up-link" 
+                        tabindex="0" aria-label="Sign Up Link" role="link" title="Sign Up Link" 
+                        routerLink="/signup">
+                        Sign Up
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

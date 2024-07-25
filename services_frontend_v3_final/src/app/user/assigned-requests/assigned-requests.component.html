@@ -1,0 +1,35 @@
+<section class="px-5 py-4 assigned-body" id="assigned-requests" aria-label="Assigned Requests Page" tabindex="0">
+    <h1 class="display-6" id="assigned-requests-title" tabindex="0">Assigned Requests ({{ totalTicketCount }})</h1>
+    <div class="alert alert-info" id="assigned-empty-alert" *ngIf="tickets === null || tickets.length === 0" role="alert"
+        tabindex="0">
+        <b>No tickets assigned yet</b>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-5 py-4" id="assigned-card-grid">
+        <div class="col" *ngFor="let ticket of tickets" id="assigned-card-column">
+            <div class="card" id="assigned-card">
+                <div class="card-body main-color rounded shadow" id="assigned-card-body">
+                    <div class="d-flex flex-sm-row mb-2">
+                        <span class="badge bg-primary position-absolute top-0 end-0 me-4 mt-3">
+                            Assigned</span>
+                        <p class="mb-0" tabindex="0"><b>Ticket ID:</b> {{ ticket.ticketId }}</p>
+                    </div>
+                    <h5 class="card-title d-inline" id="ticket-{{ ticket.ticketId }}-category" tabindex="0">
+                        {{ ticket?.categoryName }}</h5>
+                    <p class="card-text mt-2 mb-2" id="ticket-{{ ticket.ticketId }}-description" tabindex="0">
+                        {{ ticket?.ticketDescription }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-time" tabindex="0"><b>Created At:</b> 
+                        {{ ticket?.ticketCreatedTime | date:'medium' }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-assigned-time" tabindex="0"><b>Assigned At:</b> 
+                        {{ ticket?.ticketUpdatedAt | date:'medium' }}</p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-assigned-to" tabindex="0"><b>Assigned To:</b> 
+                        {{ ticket?.assignedTo?.firstName + ' ' + ticket?.assignedTo?.lastName }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mx-1" id="'pagination-button-{{ page + 1 }}" *ngFor="let page of pages" 
+        attr.aria-label="'Go to page {{ page + 1 }}" [routerLink]="['.', { page: page + 1 }]" 
+        [ngClass]="{ 'btn-secondary': currentPage-1 === page }">
+        {{ page + 1 }}
+    </button>
+</section>
