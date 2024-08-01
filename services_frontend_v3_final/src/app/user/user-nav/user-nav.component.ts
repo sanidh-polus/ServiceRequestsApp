@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { LoginSignUpService } from '../../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../../service/login-signup/login-signup.service';
 import { TicketCountService } from '../../service/ticket-count/ticket-count.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class UserNavComponent implements OnInit, OnDestroy {
     approvedTicketsCount = 0;
     rejectedTicketsCount = 0;
     private subscription: Subscription = new Subscription();
+    isAdmin = false;
 
     constructor( private _router: Router,
                  private _loginSignUpService: LoginSignUpService,
@@ -28,15 +29,22 @@ export class UserNavComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const CURRENT_USER = this._loginSignUpService.getCurrentUser();
-        if (CURRENT_USER !== null) {
+        if (CURRENT_USER) {
             this.firstName = CURRENT_USER.firstName;
             this.userId = CURRENT_USER.personid;
+            if (this.hasRole(CURRENT_USER.roles, 'APPLICATION_ADMINISTRATOR')) {
+                this.isAdmin = true;
+            }
         }
         this.fetchTicketCount();
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    private hasRole(roles: { roleId: number; roleName: string; roleDescription: string }[], roleName: string): boolean {
+        return roles.some(role => role.roleName === roleName);
     }
 
     @HostListener('window:scroll', ['$event'])

@@ -3,7 +3,7 @@ package com.polus.servicerequest.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.polus.servicerequest.entity.Person;
+//import com.polus.servicerequest.entity.Person;
 
 import lombok.Data;
 
@@ -13,6 +13,7 @@ public class TicketStatusDTO {
 	private int ticketId;
 	private int personId;
 	private int categoryId;
+	private String fullName;
 	private String ticketDescription;
 	private String categoryName;
 	private Timestamp ticketCreatedTime;

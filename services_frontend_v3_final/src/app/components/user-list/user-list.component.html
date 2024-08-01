@@ -1,0 +1,42 @@
+<div class="container-fluid mt-5" id="user-list-container">
+    <div class="col-md-12" id="user-list-column">
+        <div class="card" id="user-list-card">
+            <div class="card-header" id="user-list-card-header">
+                <h4 class="mb-0" id="user-list-card-title" tabindex="0">{{ role }} List</h4>
+            </div>
+            <div class="card-body table-responsive" id="user-list-card-body">
+                <table class="table table-striped" id="user-list-table">
+                    <thead id="user-list-table-header">
+                        <tr id="user-list-table-header-row">
+                            <th id="header-column-id" tabindex="0">ID</th>
+                            <th id="header-column-first-name" tabindex="0">First Name</th>
+                            <th id="header-column-last-name" tabindex="0">Last Name</th>
+                            <th id="header-column-email" tabindex="0">Email</th>
+                            <th id="header-column-designation" tabindex="0">Designation</th>
+                            <th id="header-column-actions" tabindex="0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list-table-body">
+                        <tr id="user-list-table-rows" *ngFor="let user of users">
+                            <td id="item-user-id" tabindex="0">{{ user.id }}</td>
+                            <td id="item-user-first-name" tabindex="0">{{ user.firstName }}</td>
+                            <td id="item-user-last-name" tabindex="0">{{ user.lastName }}</td>
+                            <td id="item-user-email" tabindex="0">{{ user.email }}</td>
+                            <td id="item-user-designation" tabindex="0">{{ user.designation }}</td>
+                            <td id="item-user-select-button">
+                                <button class="btn btn-success btn-sm" id="make-admin-button" 
+                                    (click)="onUserSelect(user.id)" *ngIf="role === 'User'">
+                                    Make Admin
+                                </button>
+                                <button class="btn btn-danger btn-sm" id="remove-admin-button" 
+                                    (click)="onUserSelect(user.id)" *ngIf="role === 'Admin'">
+                                   Remove Admin
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

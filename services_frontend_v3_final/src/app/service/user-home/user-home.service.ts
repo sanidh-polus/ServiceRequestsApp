@@ -23,8 +23,8 @@ export class UserHomeService {
         return this._http.post<NewRequest>('/service/create', requestDetails);
     }
 
-    getTickets(id: number, status: number, page: number, offset: number): Observable<Ticket[]> {
-        return this._http.get<Ticket[]>(`/service/tickets/${id}/${status}/${page}/${offset}`);
+    getTickets(ticketsData: any): Observable<Ticket[]> {
+        return this._http.post<Ticket[]>(`/service/tickets`, ticketsData);
     }
 
     deleteTicket(id: number): Observable<any> {
@@ -39,7 +39,7 @@ export class UserHomeService {
         return this._http.put<any>('/service/assign', adminDetails);
     }
 
-    getTicketCount(id: number, status: number): Observable<any> {
-        return this._http.get<any>(`/service/count/${id}/${status}`);
+    getTicketCount(id: number): Observable<any> {
+        return this._http.get<any>(`/service/count/${id}`);
     }
 }

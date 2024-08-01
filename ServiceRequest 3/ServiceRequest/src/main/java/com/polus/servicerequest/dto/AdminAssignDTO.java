@@ -1,7 +1,5 @@
 package com.polus.servicerequest.dto;
 
-import com.polus.servicerequest.entity.Person;
-
 import lombok.Data;
 
 @Data

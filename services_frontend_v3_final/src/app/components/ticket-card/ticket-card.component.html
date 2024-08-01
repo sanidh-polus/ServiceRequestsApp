@@ -1,0 +1,40 @@
+<div class="card" id="request-card">
+    <div class="card-body main-color rounded shadow" id="request-card-body">
+        <div class="d-flex flex-sm-row mb-2" id="request-card-flex">
+            <span class="badge position-absolute top-0 end-0 me-4 mt-3" id="request-card-badge"
+                [ngClass]="{'bg-success': status === 'approved', 'bg-danger': status === 'rejected'}">
+                {{ status === 'approved' ? 'Approved' : 'Rejected' }}
+            </span>
+            <p class="mb-0" id="request-ticket-id" tabindex="0"><b>Ticket ID:</b> {{ ticket.ticketId }}</p>
+        </div>
+        <h5 class="card-title d-inline" id="ticket-{{ ticket.ticketId }}-category" tabindex="0">
+            {{ ticket.categoryName }}
+        </h5>
+        <p class="card-text mt-2 mb-2" id="ticket-{{ ticket.ticketId }}-description" tabindex="0">
+            {{ ticket.ticketDescription }}
+        </p>
+        <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-by" tabindex="0"><b>Created By:</b> 
+            {{ ticket.fullName }}
+        </p> 
+        <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-time" tabindex="0">
+            <b>Created At:</b> {{ ticket.ticketCreatedTime | date:'medium' }}
+        </p>
+        <ng-container id="approved-by-user-name" *ngIf="status === 'approved'; else rejected">
+            <p class="text-muted" id="ticket-{{ ticket.ticketId }}-approved-time" tabindex="0">
+                <b>Approved At:</b> {{ ticket.ticketUpdatedAt | date:'medium' }}
+            </p>
+        </ng-container>
+        <ng-template id="rejected-by-user-name" #rejected>
+            <p class="text-muted" id="ticket-{{ ticket.ticketId }}-rejected-time" tabindex="0">
+                <b>Rejected At:</b> {{ ticket.ticketUpdatedAt | date:'medium' }}
+            </p>
+            <!-- Conditionally render comments for rejected tickets -->
+            <!-- <ng-container *ngIf="ticket?.rejectionComments">
+                <p class="text-muted mt-2" id="ticket-{{ ticket.ticketId }}-rejection-comments" tabindex="0">
+                    <b>Comments:</b> {{ ticket.rejectionComments }}
+                </p>
+            </ng-container> -->
+        </ng-template>
+    </div>
+</div>
+  

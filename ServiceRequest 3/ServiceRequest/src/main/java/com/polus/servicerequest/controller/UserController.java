@@ -29,7 +29,7 @@ public class UserController {
 		try {
 			return userService.signup(personDTO);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
 

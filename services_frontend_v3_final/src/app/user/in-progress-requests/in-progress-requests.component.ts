@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
-import { LoginSignUpService } from '../../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../../service/login-signup/login-signup.service';
 import { UserHomeService } from '../../service/user-home/user-home.service';
 import { Tickets } from './Tickets';
 import { TicketCountService } from '../../service/ticket-count/ticket-count.service';
@@ -34,7 +34,9 @@ export class InProgressRequestsComponent implements OnInit {
     assignedTicketId = 0;
     isAssigned = false;
     private subscription: Subscription = new Subscription();
-    
+    isAdmin = false;
+    userFullName = ''
+
     constructor( private _loginSignUpService: LoginSignUpService,
                  private _userHomeService: UserHomeService,
                  private _ticketCountService: TicketCountService,
@@ -42,11 +44,21 @@ export class InProgressRequestsComponent implements OnInit {
 
     ngOnInit(): void {
         const CURRENT_USER = this._loginSignUpService.getCurrentUser();
-        this.userId = CURRENT_USER.personid;
+        if (CURRENT_USER) {
+            this.userId = CURRENT_USER.personid;
+        }
+        if (this.hasRole(CURRENT_USER.roles, 'APPLICATION_ADMINISTRATOR')) {
+            this.isAdmin = true;
+            this.userFullName = CURRENT_USER.firstName + ' ' + CURRENT_USER.lastName;
+        }
         this.pagination();
         this.getAllCategories();
         this.getAllAdmins();
         this.fetchCurrentPageTickets();
+    }
+
+    private hasRole(roles: { roleId: number; roleName: string; roleDescription: string }[], roleName: string): boolean {
+        return roles.some(role => role.roleName === roleName);
     }
 
     private pagination(): void {
@@ -66,15 +78,21 @@ export class InProgressRequestsComponent implements OnInit {
     // }
 
     private fetchCurrentPageTickets(): void {
-        this._route.params.subscribe(params => {
+        this._route.queryParams.subscribe(params => {
             this.currentPage = +params['page'] || 1;
             this.getPendingRequests(this.currentPage);
         });
     }
 
     public getPendingRequests( pageNumber: number ): void {
-        this.currentPage = pageNumber;
-        this._userHomeService.getTickets( this.userId, 1, pageNumber - 1, this.ticketsPerPage ).subscribe({
+        const TICKETS_PAYLOAD = {
+            "personId": this.userId,
+            "statusId": 1,
+            "page": pageNumber - 1,
+            "size": this.ticketsPerPage
+        };
+
+        this._userHomeService.getTickets(TICKETS_PAYLOAD).subscribe({
             next: (response) => {
                 console.log(response);
                 this.tickets = response;
@@ -112,8 +130,10 @@ export class InProgressRequestsComponent implements OnInit {
             next: (response) => {
                 console.log(response);
                 response.forEach((admin: any) => {
-                    this.adminMap.set((admin.firstName + ' ' + admin.lastName), admin.id);
-                    this.adminNames.push(admin.firstName + ' ' + admin.lastName);
+                    let ADMIN_FULL_NAME = admin.firstName + ' ' + admin.lastName;
+                    ADMIN_FULL_NAME = (ADMIN_FULL_NAME === this.userFullName) ? 'to me' : ADMIN_FULL_NAME;
+                    this.adminMap.set(ADMIN_FULL_NAME, admin.id);
+                    this.adminNames.push(ADMIN_FULL_NAME);
                 });
                 this.adminNames.sort((a, b) => a.length - b.length);
             },

@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import swal from 'sweetalert';
 import { SignupData } from './SignupData';
 import { Country } from './Country';
-import { LoginSignUpService } from '../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../service/login-signup/login-signup.service';
 
 @Component({
 	selector: 'app-signup',
@@ -53,10 +53,17 @@ export class SignUpComponent implements OnInit {
         });
     }
 
-  /**
-   * Description:
-   * Filtering the countries.
-   */
+    public getErrorClasses(field: string): Record<string, boolean> {
+        return {
+                'error-border': this.errorsMap.has(field),
+                'mb-0': this.errorsMap.has(field),
+                'mb-2': !this.errorsMap.has(field)
+            }
+    }
+    /**
+    * Description:
+    * Filtering the countries.
+    */
     public getFilteredCountryNames(): string[] {
         const FILTER_VALUE = this.searchText.toLowerCase();
         return this.countryNames.filter((country) =>

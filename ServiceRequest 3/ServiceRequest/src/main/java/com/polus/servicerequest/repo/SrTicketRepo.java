@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+// import org.springframework.data.repository.query.Param;
 
 import com.polus.servicerequest.entity.SrTicket;
 
@@ -21,4 +21,7 @@ public interface SrTicketRepo extends JpaRepository<SrTicket, Integer> {
 			+ "LIMIT :limit OFFSET :offset", nativeQuery = true)
 	List<SrTicket> findTicketsAssignedToAnAdmin(Integer assignedTo, Integer statusId, Integer limit, Integer offset);
 
+	@Query(value = "SELECT COUNT(*) FROM SR_TICKET t"
+			+ " WHERE t.STATUS_ID=:statusId AND t.TICKET_ASSIGNED_TO=:assignedTo", nativeQuery = true)
+	int GetCountOfTicketsHandledByAnAdmin(Integer statusId, Integer assignedTo);
 }

@@ -9,7 +9,8 @@ import { InProgressRequestsComponent } from './in-progress-requests/in-progress-
 import { AssignedRequestsComponent } from './assigned-requests/assigned-requests.component';
 import { ApprovedRequestsComponent } from './approved-requests/approved-requests.component';
 import { RejectedRequestsComponent } from './rejected-requests/rejected-requests.component';
-import { ProfileComponent } from './profile/profile.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProfilePageComponent } from '../components/profile-page/profile-page.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
         AssignedRequestsComponent,
         ApprovedRequestsComponent,
         RejectedRequestsComponent,
-        ProfileComponent
+        UserProfileComponent
     ],
     imports: [
         CommonModule,
@@ -28,7 +29,8 @@ import { ProfileComponent } from './profile/profile.component';
         NgFor,
         NgIf,
         RouterOutlet,
-        RouterLink
+        RouterLink,
+        ProfilePageComponent
     ]
 })
 

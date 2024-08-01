@@ -1,0 +1,15 @@
+.nav-link { cursor: pointer; }
+
+.nav-link.active { background-color: #d7c0ae; }
+
+.nav-link.active:hover,
+.nav-link.active:focus {
+    background-color: #d7c0ae;
+    color: #000;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    background-color: #bf9270;
+    color: #fff;
+}

@@ -1,0 +1,28 @@
+<section class="container-fluid my-1" id="manage-users-body">
+    <h1 class="display-6 ms-4 mt-2 mb-4" id="manage-users-title" tabindex="0">Manage Users</h1>
+    <div class="tab-container mx-4" id="manage-users-tab-container">
+        <ul class="nav nav-tabs" id="manage-users-tab-list" role="tablist">
+            <li class="nav-item" id="list-item-users" role="presentation">
+                <button class="nav-link" id="users-list-tab-link" [ngClass]="{'active': activeTab === 'users'}" 
+                    (click)="setActiveTab('users')">Users</button>
+            </li>
+            <li class="nav-item" id="list-item-admin" role="presentation">
+                <button class="nav-link" id="admin-list-tab-link" [ngClass]="{'active': activeTab === 'admins'}" 
+                    (click)="setActiveTab('admins')">Admins</button>
+            </li>
+        </ul>
+        <div class="tab-content mb-5" id="manage-users-tab-content">
+            <div class="tab-pane fade" id="users-list-tab-panel" [ngClass]="{'show active': activeTab === 'users'}" 
+                role="tabpanel">
+                <app-user-list id="users-table-component" [users]="users" role="User" (selectedUser)="makeAdmin($event)">
+                </app-user-list>
+            </div>
+            <div class="tab-pane fade" id="admin-list-tab-panel" [ngClass]="{'show active': activeTab === 'admins'}" 
+                role="tabpanel">
+                <app-user-list id="admin-table-component" [users]="users" role="Admin" (selectedUser)="removeAdmin($event)">
+                </app-user-list>
+            </div>
+        </div>
+    </div>
+</section>
+  

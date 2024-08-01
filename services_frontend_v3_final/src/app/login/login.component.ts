@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import swal from 'sweetalert';
 import { LoginData } from './LoginData';
-import { LoginSignUpService } from '../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../service/login-signup/login-signup.service';
 
 @Component({
     selector: 'app-login',
@@ -21,7 +21,6 @@ export class LoginComponent {
     constructor( private _loginSignUpService: LoginSignUpService, 
                 private _router: Router) {}
 
-    
     errorMessage = '';
     passwordType = 'password';
     togglePasswordClass = 'bi-eye-slash';
@@ -43,11 +42,15 @@ export class LoginComponent {
             this.errorMessage = 'Enter a valid email (example@domain.com)';
             this.errorsMap.set('email', 'true');
         }
-        else if (this.loginData.password.length < 8) {
-            this.errorMessage  = 'Enter a valid password (>= 8 characters)';
-            this.errorsMap.set('password', 'true');
-        }
+        // else if (this.loginData.password.length < 8) {
+        //     this.errorMessage  = 'Enter a valid password (>= 8 characters)';
+        //     this.errorsMap.set('password', 'true');
+        // }
         return this.errorMessage !== '' ? false : true;
+    }
+
+    private hasRole(roles: { roleId: number; roleName: string; roleDescription: string }[], roleName: string): boolean {
+        return roles.some(role => role.roleName === roleName);
     }
 
     private loginService(): void {
@@ -59,6 +62,15 @@ export class LoginComponent {
         this._loginSignUpService.checkLoginDetails(LOGIN_BODY).subscribe({
             next: (response) => {
                 console.log('Response: ', response);
+                if (this.hasRole(response.roles, 'APPLICATION_ADMINISTRATOR')) 
+                    this._router.navigate(['/admin']);
+                else if (this.hasRole(response.roles, 'PRINCIPAL INVESTIGATOR')) {
+                    this._router.navigate(['/user']);
+                }
+                else { 
+                    swal('Error', 'Not a valid user, please contact an admin', 'error'); 
+                    return;
+                }
                 swal({
                     title: 'Successfully Logged In',
                     text: ' ',
@@ -66,7 +78,6 @@ export class LoginComponent {
                     buttons: [false],
                     timer: 2000
                 });
-                this._router.navigate(['/user']);
             },
             error: (e: HttpErrorResponse) => {
                 console.log(e);

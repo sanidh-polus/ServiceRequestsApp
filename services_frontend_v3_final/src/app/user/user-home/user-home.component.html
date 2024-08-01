@@ -1,4 +1,5 @@
-<section class="post-body p-3" id="create-requests-page" aria-label="Create Request Page" tabindex="0">
+<section class="post-body p-3" id="create-requests-page" aria-label="Create Request Page" tabindex="0" 
+    *ngIf="newRequest.personId !== 0">
     <div class="alert alert-color alert-dismissible fade show text-center welcome-message" id="user-greeting" 
         tabindex="0" *ngIf="showAlert">
         Hi {{ firstName }}, Welcome to the Service Requests App!
@@ -32,10 +33,11 @@
                             aria-label="Enter a description" [ngClass]="{'error-border': errorsMap.has('description') }">
                         </textarea>
                     </div>
-                    <p class="text-danger" id="create-request-error-text" aria-live="assertive" tabindex="0">
+                    <p class="text-danger" id="create-request-error-text" aria-live="assertive" tabindex="0"
+                       *ngIf="errorMessage !== ''">
                        <b>{{ errorMessage }}</b> 
                     </p>
-                    <button class="btn btn-success mt-1" id="submit-button" type="button" (click)="createRequest()" 
+                    <button class="btn btn-success mt-2" id="submit-button" type="button" (click)="createRequest()" 
                         tabindex="0">
                         Create
                     </button>

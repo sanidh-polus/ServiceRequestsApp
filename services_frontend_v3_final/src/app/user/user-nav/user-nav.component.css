@@ -9,9 +9,11 @@ nav {
     transition: transform 0.3s ease-in-out;
 }
 
-.nav-item:hover { background-color: #914f1e; }
+.nav-item:hover,
+.nav-item:focus { background-color: #914f1e; }
 
-.active:hover { background-color: #d7c0ae; }
+.active:hover,
+.active:focus { background-color: #d7c0ae; }
 
 .navbar-brand {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;

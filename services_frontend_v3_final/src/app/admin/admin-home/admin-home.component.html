@@ -1,0 +1,68 @@
+<section class="container-fluid" id="admin-home-body" role="main" >
+    <h1 class="display-6 ms-4 mt-2 mb-4" id="admin-assigned-requests-title" tabindex="0">Assigned Requests</h1>
+    <div class="alert alert-info m-4" id="admin-assigned-empty-alert" *ngIf="tickets === null || tickets.length === 0" 
+        role="alert" tabindex="0">
+        <b>No tickets assigned yet</b>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-5 mx-1 mb-4" id="admin-assigned-card-grid">
+        <div class="col" *ngFor="let ticket of tickets" id="admin-assigned-card-column">
+            <div class="card" id="admin-assigned-card">
+                <div class="card-body main-color rounded shadow" id="admin-assigned-card-body">
+                    <div class="d-flex flex-sm-row mb-2">
+                        <span class="badge bg-primary position-absolute top-0 end-0 me-4 mt-3" id="admin-assigned-badge">
+                            Assigned
+                        </span>
+                        <p class="mb-0" tabindex="0" id="admin-assigned-ticket-id"><b>Ticket ID:</b> 
+                            {{ ticket.ticketId }}
+                        </p>
+                    </div>
+                    <h5 class="card-title d-inline" id="ticket-{{ ticket.ticketId }}-category" tabindex="0">
+                        {{ ticket?.categoryName }}
+                    </h5>
+                    <p class="card-text mt-2 mb-2" id="ticket-{{ ticket.ticketId }}-description" tabindex="0">
+                        {{ ticket?.ticketDescription }}
+                    </p>
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-by" tabindex="0"><b>Created By:</b> 
+                        {{ ticket?.fullName }}
+                    </p>  
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-created-time" tabindex="0"><b>Created At:</b> 
+                        {{ ticket?.ticketCreatedTime | date:'medium' }}
+                    </p>                    
+                    <p class="text-muted" id="ticket-{{ ticket.ticketId }}-assigned-time" tabindex="0"><b>Assigned At:</b> 
+                        {{ ticket?.ticketUpdatedAt | date:'medium' }}
+                    </p>
+                    <div class="mt-3">
+                        <button class="btn btn-success me-2" id="approve-button" (click)="currentTicketId = ticket.ticketId; 
+                            handleTicketAction('approve')">Approve</button>
+                        <button class="btn btn-danger" id="reject-button" data-bs-target="#reject-modal" 
+                            data-bs-toggle="modal" (click)="currentTicketId = ticket.ticketId">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reject Ticket Modal -->
+<div class="modal fade" id="reject-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="reject-modal-header">
+                <h4 class="modal-title" id="reject-modal-title">Reject Ticket</h4>
+            </div>
+            <div class="modal-body" id="reject-modal-body">
+                <div class="form-group" id="reject-form">
+                    <label for="comments" id="reject-comments-label">Comments:</label>
+                    <textarea class="form-control" id="reject-comments" [(ngModel)]="comments" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer" id="reject-modal-footer">
+                <button class="btn btn-secondary" id="reject-cancel-button" type="button" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button class="btn btn-danger" id="reject-submit-button" type="button" data-bs-dismiss="modal" 
+                    (click)="handleTicketAction('reject')">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>

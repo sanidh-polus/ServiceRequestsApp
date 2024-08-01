@@ -16,16 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.polus.servicerequest.dto.AdminandUsersDTO;
 import com.polus.servicerequest.dto.AssignedToAdminTicketsDTO;
-import com.polus.servicerequest.dto.CategoryDTO;
+//import com.polus.servicerequest.dto.CategoryDTO;
 import com.polus.servicerequest.dto.ChangeStatusDTO;
-import com.polus.servicerequest.dto.CountDTO;
+//import com.polus.servicerequest.dto.CountDTO;
 import com.polus.servicerequest.dto.NewServiceCategoryDTO;
+import com.polus.servicerequest.dto.AddOrRemoveAdminDTO;
 import com.polus.servicerequest.dto.AdminAssignDTO;
 import com.polus.servicerequest.dto.TicketStatusDTO;
+import com.polus.servicerequest.dto.TicketsDTO;
 import com.polus.servicerequest.dto.SrTicketDTO;
-import com.polus.servicerequest.entity.Person;
-import com.polus.servicerequest.entity.SrTicketCategory;
-import com.polus.servicerequest.repo.UserRepository;
+//import com.polus.servicerequest.entity.Person;
+//import com.polus.servicerequest.entity.SrTicketCategory;
+//import com.polus.servicerequest.repo.UserRepository;
 import com.polus.servicerequest.service.impl.TicketService;
 
 @RestController
@@ -69,17 +71,15 @@ public class TicketController {
 
 	}
 
-	@GetMapping("/tickets/{personId}/{statusId}/{page}/{size}")
-	public ResponseEntity<Object> getTicketsByPersonIdAndStatusId(@PathVariable Integer personId,
-			@PathVariable Integer statusId, @PathVariable Integer page, @PathVariable Integer size) {
+	@PostMapping("/tickets")
+	public ResponseEntity<Object> getTicketsByPersonIdAndStatusId(@RequestBody TicketsDTO ticketsDTO) {
 		try {
-			List<TicketStatusDTO> tickets = ticketService.findTicketsForPersonWithStatus(personId, statusId, page,
-					size);
+			List<TicketStatusDTO> tickets = ticketService.findTicketsForPersonWithStatus(ticketsDTO);
 			return ResponseEntity.ok(tickets);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
 		}
-
+ 
 	}
 
 	@DeleteMapping("/delete/{ticketId}")
@@ -112,22 +112,21 @@ public class TicketController {
 		}
 	}
 
-	@PostMapping("/makeadmin/{adminId}/{personId}")
-	public ResponseEntity<Object> makeAnUserAdmin(@PathVariable Integer adminId, @PathVariable Integer personId) {
+	@PostMapping("/makeadmin")
+	public ResponseEntity<Object> makeAnUserAdmin(@RequestBody AddOrRemoveAdminDTO addOrRemoveAdminDTO) {
 		try {
-			return ticketService.makeAnUserAdmin(adminId, personId);
+			return ticketService.makeAnUserAdmin(addOrRemoveAdminDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("something went wrong. please try again later");
 		}
-
+ 
 	}
 
-	@GetMapping("/count/{personId}/{statusId}")
-	public ResponseEntity<Object> getCountOfTicketStatus(@PathVariable Integer personId,
-			@PathVariable Integer statusId) {
+	@GetMapping("/count/{personId}")
+	public ResponseEntity<Object> getCountOfTicketStatus(@PathVariable Integer personId) {
 		try {
-			return ticketService.getCountOfTicketStatus(personId, statusId);
+			return ticketService.getCountOfTicketStatus(personId);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("something went wrong");
 		}
@@ -152,19 +151,17 @@ public class TicketController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(e.getMessage());
 		}
-
+ 
 	}
 
-	@GetMapping("/assignedtoadmin/{page}/{size}")
-	public ResponseEntity<Object> assignedToAnAdminTickets(
-			@RequestBody AssignedToAdminTicketsDTO assignedToAdminTicketsDTO, @PathVariable Integer page,
-			@PathVariable Integer size) {
+	@PostMapping("/assignedtoadmin")
+	public ResponseEntity<Object> ticketsHandledByAnAdmin(
+			@RequestBody AssignedToAdminTicketsDTO assignedToAdminTicketsDTO) {
 		try {
-		List<TicketStatusDTO> tickets = ticketService.assignedToAnAdminTickets(assignedToAdminTicketsDTO, page, size);
-		return ResponseEntity.ok(tickets);
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(e.getMessage());
+			List<TicketStatusDTO> tickets = ticketService.ticketsHandledByAnAdmin(assignedToAdminTicketsDTO);
+			return ResponseEntity.ok(tickets);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
 }

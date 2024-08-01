@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import { UserHomeService } from '../../service/user-home/user-home.service';
 import { NewRequest } from './NewRequest';
 import { CategoryDetails } from './CategoryDetails';
-import { LoginSignUpService } from '../../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../../service/login-signup/login-signup.service';
 import { TicketCountService } from '../../service/ticket-count/ticket-count.service';
 
 declare let bootstrap: any;
@@ -32,6 +32,8 @@ export class UserHomeComponent implements OnInit {
     };
     errorsMap = new Map<string, string>();
     showAlert = true; 
+    totalTicketCount = 0;
+    ticketsPerPage = 4;
 
     constructor( private _loginSignUpService: LoginSignUpService,
                  private _userHomeService: UserHomeService,
@@ -40,7 +42,7 @@ export class UserHomeComponent implements OnInit {
 
     ngOnInit(): void {
         const CURRENT_USER = this._loginSignUpService.getCurrentUser();
-        if (CURRENT_USER !== null) {
+        if (CURRENT_USER) {
             this.firstName = CURRENT_USER.firstName;
             this.newRequest.personId = CURRENT_USER.personid;
         }
@@ -70,7 +72,6 @@ export class UserHomeComponent implements OnInit {
     private getAllCategories(): void {
         this._userHomeService.getCategories().subscribe({
             next: (response) => {
-                console.log(response);
                 this.categoryDetails = response;
                 response.forEach((category: any) => {
                     this.categories.set(category.categoryName, category.categoryId);
@@ -135,7 +136,12 @@ export class UserHomeComponent implements OnInit {
                 });
                 this.resetForm();
                 this._ticketCountService.fetchTicketCounts();
-                this._router.navigate(['/user/nav/in-progress']);
+                this._ticketCountService.getInProgressTicketsCount()
+                    .subscribe(count => this.totalTicketCount = count + 1);
+                const TOTAL_PAGES = Math.ceil(this.totalTicketCount / this.ticketsPerPage);
+                this._router.navigate(['/user/nav/in-progress'], {
+                    queryParams: { page: TOTAL_PAGES }
+                });
             },
             error: (e: HttpErrorResponse) => {
                 console.log(e);

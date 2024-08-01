@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Tickets } from './Tickets';
 import { UserHomeService } from '../../service/user-home/user-home.service';
-import { LoginSignUpService } from '../../service/login_signup/login_signup.service';
+import { LoginSignUpService } from '../../service/login-signup/login-signup.service';
 import { TicketCountService } from '../../service/ticket-count/ticket-count.service';
 
 @Component({
@@ -28,13 +28,22 @@ export class AssignedRequestsComponent implements OnInit {
 
     ngOnInit(): void {
         const CURRENT_USER = this._loginSignUpService.getCurrentUser();
-        this.userId = CURRENT_USER.personid;
+        if (CURRENT_USER) {
+            this.userId = CURRENT_USER.personid;
+        }
         this.pagination();
         this.fetchCurrentPageTickets();
     }
 
     public getAssignedRequests( pageNumber: number ): void {
-        this._userHomeService.getTickets( this.userId, 2, pageNumber - 1, this.ticketsPerPage ).subscribe({
+        const TICKETS_PAYLOAD = {
+            "personId": this.userId,
+            "statusId": 2,
+            "page": pageNumber - 1,
+            "size": this.ticketsPerPage
+        };
+
+        this._userHomeService.getTickets(TICKETS_PAYLOAD).subscribe({
             next: (response) => {
                 console.log(response);
                 this.tickets = response;

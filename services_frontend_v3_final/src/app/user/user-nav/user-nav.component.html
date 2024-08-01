@@ -1,5 +1,10 @@
+<div *ngIf="userId === 0">
+    <div class="alert alert-warning" id="user-login-alert" role="alert">
+        <strong>Notice:</strong> Please <a [routerLink]="['/login']" class="alert-link text-primary">login</a> to continue.
+    </div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light p-3 sticky-top" id="navbar" aria-label="Navbar" tabindex="0"
-    [ngClass]="{'navbar-hidden': isNavbarHidden}">
+    [ngClass]="{'navbar-hidden': isNavbarHidden}" *ngIf="userId !== 0">
     <h1 class="navbar-brand display-6 ms-lg-4 ms-2" id="app-title" tabindex="0"><b>Service Requests App</b></h1>
     <div class="d-flex align-items-center d-lg-none mb-3">
         <button class="navbar-toggler" id="nav-toggle" type="button" data-bs-toggle="collapse" tabindex="0"
@@ -10,6 +15,8 @@
             [routerLink]="['/user/nav/profile']">
             <i class="bi bi-person-fill"></i> {{ firstName }}
         </a>
+        <a class="nav-item rounded nav-link px-2 mx-2" id="admin-home-link" routerLinkActive="active" tabindex="0"
+            [routerLink]="['/admin/nav/home']" *ngIf="isAdmin">Admin Home</a>
         <a class="nav-item rounded nav-link logout p-2 mx-2" id="logout-link" aria-label="logout" (click)="logout()" 
             (keypress)="logout()" tabindex="0">
             <i class="bi bi-box-arrow-right"></i>
@@ -31,6 +38,8 @@
                 [routerLink]="['/user/nav/profile']">
                 <i class="bi bi-person-fill"></i> {{ firstName }}
             </a>
+            <a class="nav-item rounded nav-link px-2 d-lg-block d-none" id="admin-home-link" routerLinkActive="active" tabindex="0"
+                [routerLink]="['/admin/nav/home']" *ngIf="isAdmin">Admin Home</a>
             <a class="nav-item rounded nav-link logout mx-2 d-lg-block d-none" id="logout-link" aria-label="logout" 
                 (click)="logout()" (keypress)="logout()" tabindex="0">
                 <i class="bi bi-box-arrow-right"></i>
